@@ -6,6 +6,12 @@ import aiohttp
 
 from aiocryptocurrency import TransactionSet, Transaction
 
+SUPPORTED_COINS = {
+        "firo": "firo",
+        "monero": "xmr",
+        "wownero": "wow"
+}
+
 
 class Coin:
     def __init__(self):
