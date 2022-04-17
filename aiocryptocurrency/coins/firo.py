@@ -122,6 +122,8 @@ class Firo(Coin):
 
         async with aiohttp.ClientSession(**opts) as session:
             async with session.post(self.url, json=data) as resp:
+                if resp.status == 401:
+                    raise Exception("Unauthorized")
                 blob = await resp.json()
                 if 'result' not in blob:
                     if blob:
