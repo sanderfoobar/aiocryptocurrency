@@ -1,6 +1,6 @@
 import json
 from operator import attrgetter
-from typing import List, Union
+from typing import List, Union, Optional
 from datetime import datetime
 
 from dateutil.parser import parse as dateutil_parse
