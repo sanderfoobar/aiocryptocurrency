@@ -97,6 +97,11 @@ class TransactionSet:
         self._transactions.append(item)
         self.sort()
 
+    def filter(self, direction='in') -> TransactionSet:
+        txset = TransactionSet()
+        txset._transactions = [tx for tx in self._transactions if tx.direction == 'in']
+        return txset
+
     def sum(self, direction='in') -> float:
         try:
             return sum(tx.amount for tx in self._transactions if tx.direction == direction)
