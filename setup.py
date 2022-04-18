@@ -10,7 +10,7 @@ INSTALL_REQUIRES = [
 
 setup(
     name='aiocryptocurrency',
-    version='0.1.4',
+    version='0.1.5',
     author='Sander',
     author_email='sander@sanderf.nl',
     python_requires='>=3.6',

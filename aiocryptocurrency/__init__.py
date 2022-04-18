@@ -77,7 +77,7 @@ class TransactionSet:
     def __len__(self):
         return len(self._transactions)
 
-    def __getitem__(self, txid: str) -> Transaction:
+    def __getitem__(self, txid: str) -> Optional[Transaction]:
         for transaction in self._transactions:
             if transaction.txid == txid:
                 return transaction
@@ -99,7 +99,7 @@ class TransactionSet:
 
     def filter(self, direction='in') -> 'TransactionSet':
         txset = TransactionSet()
-        txset._transactions = [tx for tx in self._transactions if tx.direction == 'in']
+        txset._transactions = [tx for tx in self._transactions if tx.direction == direction]
         return txset
 
     def sum(self, direction='in') -> float:
