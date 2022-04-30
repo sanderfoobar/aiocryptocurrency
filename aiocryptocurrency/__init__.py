@@ -23,7 +23,7 @@ class Transaction:
         return Transaction(
             data['amount'],
             data['txid'],
-            datetime.strptime(data['d1ate'], '%Y-%m-%d %H:%M'),
+            datetime.strptime(data['date'], '%Y-%m-%d %H:%M'),
             data['blockheight'],
             data['direction'],
             data['confirmations']

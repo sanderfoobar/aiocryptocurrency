@@ -66,7 +66,7 @@ class Nero(Coin):
                     "payment_id": res['payment_id']
                 }
 
-    async def list_txs(self, payment_id: str) -> TransactionSet:
+    async def list_txs(self, payment_id: str, *args, **kwargs) -> TransactionSet:
         txset = TransactionSet()
         await self._generate_url()
 
@@ -98,6 +98,7 @@ class Nero(Coin):
 
                     tx = Transaction(amount=amount,
                                      txid=transaction['tx_hash'],
+                                     date=datetime.now(),
                                      blockheight=transaction['block_height'],
                                      direction='in')
                     txset.add(tx)
