@@ -66,12 +66,9 @@ class Nero(Coin):
                     "payment_id": res['payment_id']
                 }
 
-    async def list_txs(self, payment_id: str, *args, **kwargs) -> TransactionSet:
+    async def list_txs(self, address: str = None, payment_id: str = None, *args, **kwargs) -> TransactionSet:
         txset = TransactionSet()
         await self._generate_url()
-
-        if not isinstance(payment_id, str) or not payment_id:
-            raise Exception("bad payment_id")
 
         async with aiohttp.ClientSession() as session:
             data = {
@@ -86,7 +83,7 @@ class Nero(Coin):
             async with session.get(self.url, json=data) as resp:
                 blob = await resp.json()
                 if 'result' not in blob:
-                    raise Exception("Invalid response")
+                    raise Exception(f"Invalid response; {blob}")
 
                 res = blob['result']
                 if not isinstance(res['payments'], list):

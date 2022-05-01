@@ -56,7 +56,7 @@ class Firo(Coin):
         blob = await self._make_request(data=data)
         return blob['result']
 
-    async def list_txs(self, address: str, minimum_confirmations: int = 3) -> Optional[TransactionSet]:
+    async def list_txs(self, address: str = None, payment_id: str = None, minimum_confirmations: int = 3) -> Optional[TransactionSet]:
         txset = TransactionSet()
         if not isinstance(address, str) or not address:
             raise Exception("bad address")
