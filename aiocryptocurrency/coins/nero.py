@@ -86,10 +86,11 @@ class Nero(Coin):
                     raise Exception(f"Invalid response; {blob}")
 
                 res = blob['result']
-                if not isinstance(res['payments'], list):
-                    raise Exception("Invalid result response")
+                payments = res.get('payments', list)
+                if not payments:
+                    return txset
 
-                transactions = res['payments']
+                transactions = payments
                 for transaction in transactions:
                     amount = float(transaction['amount']) / self._div
 
