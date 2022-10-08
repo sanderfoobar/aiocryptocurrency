@@ -70,6 +70,22 @@ class Nero(Coin):
         txset = TransactionSet()
         await self._generate_url()
 
+        height = 0
+        async with aiohttp.ClientSession() as session:
+            data = {
+                "jsonrpc": "2.0",
+                "id": "0",
+                "method": "get_height",
+            }
+
+            async with session.get(self.url, json=data) as resp:
+                blob = await resp.json()
+                height = blob.get('result', {}).get('height', 0)
+
+        if not height:
+            logging.error(f"could not get height at {self.url}")
+            return txset
+
         async with aiohttp.ClientSession() as session:
             data = {
                 "jsonrpc": "2.0",
@@ -86,7 +102,7 @@ class Nero(Coin):
                     raise Exception(f"Invalid response; {blob}")
 
                 res = blob['result']
-                payments = res.get('payments', list)
+                payments = res.get('payments', [])
                 if not payments:
                     return txset
 
@@ -98,7 +114,8 @@ class Nero(Coin):
                                      txid=transaction['tx_hash'],
                                      date=datetime.now(),
                                      blockheight=transaction['block_height'],
-                                     direction='in')
+                                     direction='in',
+                                     confirmations=(height - transaction['block_height']))
                     txset.add(tx)
 
         return txset
